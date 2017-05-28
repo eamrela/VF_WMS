@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="UsersEditDlg" widgetVar="UsersEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditUsersTitle}">
+            <h:form id="UsersEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{usersController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditUsersLabel_userEmail}" for="userEmail" />
+                        <p:inputText id="userEmail" value="#{usersController.selected.userEmail}" title="#{bundle.EditUsersTitle_userEmail}" required="true" requiredMessage="#{bundle.EditUsersRequiredMessage_userEmail}"/>
+                        <p:outputLabel value="#{bundle.EditUsersLabel_fullName}" for="fullName" />
+                        <p:inputText id="fullName" value="#{usersController.selected.fullName}" title="#{bundle.EditUsersTitle_fullName}" />
+                        <p:outputLabel value="#{bundle.EditUsersLabel_phoneNumber}" for="phoneNumber" />
+                        <p:inputText id="phoneNumber" value="#{usersController.selected.phoneNumber}" title="#{bundle.EditUsersTitle_phoneNumber}" />
+                        <p:outputLabel value="#{bundle.EditUsersLabel_userPassword}" for="userPassword" />
+                        <p:inputText id="userPassword" value="#{usersController.selected.userPassword}" title="#{bundle.EditUsersTitle_userPassword}" />
+                        <p:outputLabel value="#{bundle.EditUsersLabel_region}" for="region" />
+                        <p:selectOneMenu id="region" value="#{usersController.selected.region}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{regionsController.itemsAvailableSelectOne}"
+                                           var="regionItem"
+                                           itemValue="#{regionItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usersController.update}" value="#{bundle.Save}" update="display,:UsersListForm:datalist,:growl" oncomplete="handleSubmit(args, 'UsersEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="UsersEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

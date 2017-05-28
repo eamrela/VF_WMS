@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RequestsEditDlg" widgetVar="RequestsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditRequestsTitle}">
+            <h:form id="RequestsEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{requestsController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_reqId}" for="reqId" />
+                        <p:inputText id="reqId" value="#{requestsController.selected.reqId}" title="#{bundle.EditRequestsTitle_reqId}" required="true" requiredMessage="#{bundle.EditRequestsRequiredMessage_reqId}"/>
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_requester}" for="requester" />
+                        <p:inputText id="requester" value="#{requestsController.selected.requester}" title="#{bundle.EditRequestsTitle_requester}" />
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_siteId}" for="siteId" />
+                        <p:inputText id="siteId" value="#{requestsController.selected.siteId}" title="#{bundle.EditRequestsTitle_siteId}" />
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_faultDescription}" for="faultDescription" />
+                        <p:inputText id="faultDescription" value="#{requestsController.selected.faultDescription}" title="#{bundle.EditRequestsTitle_faultDescription}" />
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_reqComment}" for="reqComment" />
+                        <p:inputText id="reqComment" value="#{requestsController.selected.reqComment}" title="#{bundle.EditRequestsTitle_reqComment}" />
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_reqTime}" for="reqTime" />
+                        <p:calendar id="reqTime" pattern="MM/dd/yyyy HH:mm:ss" value="#{requestsController.selected.reqTime}" title="#{bundle.EditRequestsTitle_reqTime}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_officeLog}" for="officeLog" />
+                        <p:inputText id="officeLog" value="#{requestsController.selected.officeLog}" title="#{bundle.EditRequestsTitle_officeLog}" />
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_engineer}" for="engineer" />
+                        <p:selectOneMenu id="engineer" value="#{requestsController.selected.engineer}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{engineersController.itemsAvailableSelectOne}"
+                                           var="engineerItem"
+                                           itemValue="#{engineerItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_reqType}" for="reqType" />
+                        <p:selectOneMenu id="reqType" value="#{requestsController.selected.reqType}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{requestTypeController.itemsAvailableSelectOne}"
+                                           var="reqTypeItem"
+                                           itemValue="#{reqTypeItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_fromWarehouse}" for="fromWarehouse" />
+                        <p:selectOneMenu id="fromWarehouse" value="#{requestsController.selected.fromWarehouse}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{warehousesController.itemsAvailableSelectOne}"
+                                           var="fromWarehouseItem"
+                                           itemValue="#{fromWarehouseItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditRequestsLabel_toWarehouse}" for="toWarehouse" />
+                        <p:selectOneMenu id="toWarehouse" value="#{requestsController.selected.toWarehouse}" >
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{warehousesController.itemsAvailableSelectOne}"
+                                           var="toWarehouseItem"
+                                           itemValue="#{toWarehouseItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{requestsController.update}" value="#{bundle.Save}" update="display,:RequestsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RequestsEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RequestsEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

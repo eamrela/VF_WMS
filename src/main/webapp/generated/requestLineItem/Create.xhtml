@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RequestLineItemCreateDlg" widgetVar="RequestLineItemCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRequestLineItemTitle}">
+            <h:form id="RequestLineItemCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{requestLineItemController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_lineItemId}" for="lineItemId" />
+                        <p:inputText id="lineItemId" value="#{requestLineItemController.selected.lineItemId}" title="#{bundle.CreateRequestLineItemTitle_lineItemId}" required="true" requiredMessage="#{bundle.CreateRequestLineItemRequiredMessage_lineItemId}"/>
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_vendor}" for="vendor" />
+                        <p:inputText id="vendor" value="#{requestLineItemController.selected.vendor}" title="#{bundle.CreateRequestLineItemTitle_vendor}" />
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_lineItemComment}" for="lineItemComment" />
+                        <p:inputText id="lineItemComment" value="#{requestLineItemController.selected.lineItemComment}" title="#{bundle.CreateRequestLineItemTitle_lineItemComment}" />
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_qty}" for="qty" />
+                        <p:inputText id="qty" value="#{requestLineItemController.selected.qty}" title="#{bundle.CreateRequestLineItemTitle_qty}" />
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_cartonAccepted}" for="cartonAccepted" />
+                        <p:selectBooleanCheckbox id="cartonAccepted" value="#{requestLineItemController.selected.cartonAccepted}" />
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_antistaticAccepted}" for="antistaticAccepted" />
+                        <p:selectBooleanCheckbox id="antistaticAccepted" value="#{requestLineItemController.selected.antistaticAccepted}" />
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_foamAccepted}" for="foamAccepted" />
+                        <p:selectBooleanCheckbox id="foamAccepted" value="#{requestLineItemController.selected.foamAccepted}" />
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_serialNumber}" for="serialNumber" />
+                        <p:inputText id="serialNumber" value="#{requestLineItemController.selected.serialNumber}" title="#{bundle.CreateRequestLineItemTitle_serialNumber}" />
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_returnableSerial}" for="returnableSerial" />
+                        <p:inputText id="returnableSerial" value="#{requestLineItemController.selected.returnableSerial}" title="#{bundle.CreateRequestLineItemTitle_returnableSerial}" />
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_returnStatus}" for="returnStatus" />
+                        <p:selectOneMenu id="returnStatus" value="#{requestLineItemController.selected.returnStatus}" >
+                            <f:selectItems value="#{itemStatusController.itemsAvailableSelectOne}"
+                                           var="returnStatusItem"
+                                           itemValue="#{returnStatusItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateRequestLineItemLabel_reqId}" for="reqId" />
+                        <p:selectOneMenu id="reqId" value="#{requestLineItemController.selected.reqId}" required="true" requiredMessage="#{bundle.EditRequestLineItemRequiredMessage_reqId}">
+                            <f:selectItems value="#{requestsController.itemsAvailableSelectOne}"
+                                           var="reqIdItem"
+                                           itemValue="#{reqIdItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{requestLineItemController.create}" value="#{bundle.Save}" update="display,:RequestLineItemListForm:datalist,:growl" oncomplete="handleSubmit(args,'RequestLineItemCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RequestLineItemCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

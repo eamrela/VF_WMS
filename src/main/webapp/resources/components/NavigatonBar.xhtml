@@ -1,0 +1,201 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="inbound" required="true"/>
+        <cc:attribute name="transfer" required="true"/>
+        <cc:attribute name="faultybatch" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+            
+        <div class="site-menubar">
+            <div class="site-menubar-body">
+                <div>
+                    <div>
+                        <ul class="site-menu">
+                            <li class="site-menu-category">General</li>
+                            <li class="dropdown site-menu-item has-sub">
+                                <a class="dropdown-toggle" href="javascript:void(0)" data-dropdown-toggle="false">
+                                    <i class="site-menu-icon md-view-compact" aria-hidden="true"></i>
+                                    <span class="site-menu-title">Reports</span>
+                                    <span class="site-menu-arrow"></span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div class="site-menu-scroll-wrap is-list">
+                                        <div>
+                                            <div>
+                                                <ul class="site-menu-sub site-menu-normal-list">
+                                                    <li class="site-menu-item">
+                                                        <a class="animsition-link" 
+                                                           href="#{request.contextPath}/app/reports/stockonhand.xhtml">
+                                                            <span class="site-menu-title">Stock on-hand</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="site-menu-item">
+                                                        <a class="animsition-link" 
+                                                           href="#{request.contextPath}/app/reports/faultyrate.xhtml">
+                                                            <span class="site-menu-title">Faulty Rate</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="site-menu-item">
+                                                        <a class="animsition-link" 
+                                                           href="#{request.contextPath}/app/reports/issuedmaterials.xhtml">
+                                                            <span class="site-menu-title">Issued Materials</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="site-menu-item">
+                                                        <a class="animsition-link"
+                                                           href="#{request.contextPath}/app/reports/nofaultfound.xhtml">
+                                                            <span class="site-menu-title">No Fault Found Report</span>
+                                                        </a>
+                                                    </li>
+                                                    <li class="site-menu-item">
+                                                        <a class="animsition-link" 
+                                                           href="#{request.contextPath}/app/reports/stealthcases.xhtml">
+                                                             <span class="site-menu-title">Stealth Cases Report</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="site-menu-category">Elements</li>
+                            <li class="dropdown site-menu-item has-section has-sub">
+                                <a class="dropdown-toggle" href="javascript:void(0)" data-dropdown-toggle="false">
+                                    <i class="site-menu-icon md-receipt" aria-hidden="true"></i>
+                                    <span class="site-menu-title">Operations</span>
+                                    <span class="site-menu-arrow"></span>
+                                </a>
+                                <ul class="dropdown-menu site-menu-sub site-menu-section-wrap blocks-sm-2">
+                                    <li class="site-menu-section site-menu-item has-sub">
+                                        <header>
+                                            <span class="site-menu-title">Create Request</span>
+                                            <span class="site-menu-arrow"></span>
+                                        </header>
+                                        <div class="site-menu-scroll-wrap is-section">
+                                            <div>
+                                                <div>
+                                                    <ul class="site-menu-sub site-menu-section-list">
+                                                        <h:panelGroup rendered="#{cc.attrs.inbound}">
+                                                        <li class="site-menu-item">
+                                                            <a class="animsition-link"
+                                                                href="#{request.contextPath}/app/SPC/createinbound.xhtml">
+                                                                <span class="site-menu-title">Create In-Bound Request</span>
+                                                            </a>
+                                                        </li>
+                                                        </h:panelGroup>
+                                                        <h:panelGroup rendered="#{cc.attrs.transfer}">
+                                                        <li class="site-menu-item">
+                                                            <a class="animsition-link"  
+                                                               href="#{request.contextPath}/app/SPC/createtransfer.xhtml">
+                                                                <span class="site-menu-title">Create Transfer Request</span>
+                                                            </a>
+                                                        </li>
+                                                        </h:panelGroup>
+                                                        
+                                                        <li class="site-menu-item">
+                                                            <a class="animsition-link" 
+                                                               href="#{request.contextPath}/app/operations/createissue.xhtml">
+                                                                <span class="site-menu-title">Create Issue Request</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="site-menu-section site-menu-item has-sub">
+                                        <header>
+                                            <span class="site-menu-title">Handle Request</span>
+                                            <span class="site-menu-arrow"></span>
+                                        </header>
+                                        <div class="site-menu-scroll-wrap is-section">
+                                            <div>
+                                                <div>
+                                                    <ul class="site-menu-sub site-menu-section-list">
+                                                        <li class="site-menu-item">
+                                                            <a class="animsition-link" 
+                                                               href="#{request.contextPath}/app/operations/inboundqueue.xhtml">
+                                                                <span class="site-menu-title">In-Bound Queue</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="site-menu-item">
+                                                            <a class="animsition-link" 
+                                                               href="#{request.contextPath}/app/operations/transferqueue.xhtml">
+                                                                <span class="site-menu-title">Transfer Queue</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="site-menu-item">
+                                                            <a class="animsition-link" 
+                                                               href="#{request.contextPath}/app/operations/issuequeue.xhtml">
+                                                                <span class="site-menu-title">Issued Queue</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="dropdown site-menu-item has-sub">
+                                <a class="dropdown-toggle" href="javascript:void(0)" data-dropdown-toggle="false">
+                                    <i class="site-menu-icon md-widgets" aria-hidden="true"></i>
+                                    <span class="site-menu-title">Misc</span>
+                                    <span class="site-menu-arrow"></span>
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div class="site-menu-scroll-wrap is-list">
+                                        <div>
+                                            <div>
+                                                <ul class="site-menu-sub site-menu-normal-list">
+                                                    <li class="site-menu-item">
+                                                        <a class="animsition-link" 
+                                                           href="#{request.contextPath}/app/Logger/activitylog.xhtml">
+                                                            <span class="site-menu-title">Activity Log</span>
+                                                        </a>
+                                                    </li>
+                                                    <h:panelGroup rendered="#{cc.attrs.faultybatch}">
+                                                    <li class="site-menu-item">
+                                                        <a class="animsition-link" 
+                                                           href="#{request.contextPath}/app/SPC/faulty.xhtml">
+                                                            <span class="site-menu-title">Faulty Batch</span>
+                                                        </a>
+                                                    </li>
+                                                    </h:panelGroup>
+
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            
+                            <li class="dropdown site-menu-item has-sub" style="float: right;max-width: 500px;">
+                                <a class="dropdown-toggle" href="#" >
+                                    <i class="site-menu-icon md-info" aria-hidden="true"></i>
+                                    <span class="site-menu-title" style="max-width: 500px;">Region: #{usersController.loggedInUser.region.regionName}
+                                        (#{usersController.role}) Warehouse(s): #{usersController.loggedInUserWarehousesAsString}</span>
+                                </a>
+                                
+                            </li>
+                           
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+           
+        </div>
+    </cc:implementation>
+</html>

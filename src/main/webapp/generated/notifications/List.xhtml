@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="/template.xhtml">
+
+
+        <ui:define name="title">
+            <h:outputText value="#{bundle5.ListNotificationsTitle}"></h:outputText>
+        </ui:define>
+
+        <ui:define name="body">
+            <h:form id="NotificationsListForm">
+                <p:panel header="#{bundle5.ListNotificationsTitle}">
+                    <p:dataTable id="datalist" value="#{notificationsController.items}" var="item"
+                                 selectionMode="single" selection="#{notificationsController.selected}"
+                                 paginator="true"
+                                 rowKey="#{item.notiId}"
+                                 rows="10"
+                                 rowsPerPageTemplate="10,20,30,40,50"
+                                 >
+
+                        <p:ajax event="rowSelect"   update="createButton viewButton editButton deleteButton"/>
+                        <p:ajax event="rowUnselect" update="createButton viewButton editButton deleteButton"/>
+
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle5.ListNotificationsTitle_notiId}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.notiId}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle5.ListNotificationsTitle_notiTime}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.notiTime}">
+                                <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                            </h:outputText>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle5.ListNotificationsTitle_notiDescription}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.notiDescription}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle5.ListNotificationsTitle_notiType}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.notiType}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle5.ListNotificationsTitle_notiRegion}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.notiRegion}"/>
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle5.ListNotificationsTitle_notiWarehouse}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.notiWarehouse}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle5.Create}" actionListener="#{notificationsController.prepareCreate}" update=":NotificationsCreateForm" oncomplete="PF('NotificationsCreateDialog').show()"/>
+                            <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle5.View}" update=":NotificationsViewForm" oncomplete="PF('NotificationsViewDialog').show()" disabled="#{empty notificationsController.selected}"/>
+                            <p:commandButton id="editButton"   icon="ui-icon-pencil" value="#{bundle5.Edit}" update=":NotificationsEditForm" oncomplete="PF('NotificationsEditDialog').show()" disabled="#{empty notificationsController.selected}"/>
+                            <p:commandButton id="deleteButton" icon="ui-icon-trash"  value="#{bundle5.Delete}" actionListener="#{notificationsController.destroy}" update=":growl,datalist" disabled="#{empty notificationsController.selected}"/>
+                        </f:facet>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+
+            <ui:include src="Create.xhtml"/>
+            <ui:include src="Edit.xhtml"/>
+            <ui:include src="View.xhtml"/>
+        </ui:define>
+    </ui:composition>
+
+</html>

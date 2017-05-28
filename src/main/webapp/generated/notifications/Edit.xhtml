@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificationsEditDlg" widgetVar="NotificationsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle5.EditNotificationsTitle}">
+            <h:form id="NotificationsEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{notificationsController.selected != null}">
+                        <p:outputLabel value="#{bundle5.EditNotificationsLabel_notiId}" for="notiId" />
+                        <p:inputText id="notiId" value="#{notificationsController.selected.notiId}" title="#{bundle5.EditNotificationsTitle_notiId}" required="true" requiredMessage="#{bundle5.EditNotificationsRequiredMessage_notiId}"/>
+                        <p:outputLabel value="#{bundle5.EditNotificationsLabel_notiTime}" for="notiTime" />
+                        <p:calendar id="notiTime" pattern="MM/dd/yyyy HH:mm:ss" value="#{notificationsController.selected.notiTime}" title="#{bundle5.EditNotificationsTitle_notiTime}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle5.EditNotificationsLabel_notiDescription}" for="notiDescription" />
+                        <p:inputText id="notiDescription" value="#{notificationsController.selected.notiDescription}" title="#{bundle5.EditNotificationsTitle_notiDescription}" />
+                        <p:outputLabel value="#{bundle5.EditNotificationsLabel_notiType}" for="notiType" />
+                        <p:selectOneMenu id="notiType" value="#{notificationsController.selected.notiType}" >
+                            <f:selectItem itemLabel="#{bundle5.SelectOneMessage}"/>
+                            <f:selectItems value="#{notificationTypeController.itemsAvailableSelectOne}"
+                                           var="notiTypeItem"
+                                           itemValue="#{notiTypeItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle5.EditNotificationsLabel_notiRegion}" for="notiRegion" />
+                        <p:selectOneMenu id="notiRegion" value="#{notificationsController.selected.notiRegion}" >
+                            <f:selectItem itemLabel="#{bundle5.SelectOneMessage}"/>
+                            <f:selectItems value="#{regionsController.itemsAvailableSelectOne}"
+                                           var="notiRegionItem"
+                                           itemValue="#{notiRegionItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle5.EditNotificationsLabel_notiWarehouse}" for="notiWarehouse" />
+                        <p:selectOneMenu id="notiWarehouse" value="#{notificationsController.selected.notiWarehouse}" >
+                            <f:selectItem itemLabel="#{bundle5.SelectOneMessage}"/>
+                            <f:selectItems value="#{warehousesController.itemsAvailableSelectOne}"
+                                           var="notiWarehouseItem"
+                                           itemValue="#{notiWarehouseItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{notificationsController.update}" value="#{bundle5.Save}" update="display,:NotificationsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'NotificationsEditDialog');"/>
+                    <p:commandButton value="#{bundle5.Cancel}" onclick="NotificationsEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

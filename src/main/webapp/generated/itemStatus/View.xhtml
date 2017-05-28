@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ItemStatusViewDlg" widgetVar="ItemStatusViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewItemStatusTitle}">
+            <h:form id="ItemStatusViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{itemStatusController.selected != null}">
+                        <h:outputText value="#{bundle.ViewItemStatusLabel_statusName}"/>
+                        <h:outputText value="#{itemStatusController.selected.statusName}" title="#{bundle.ViewItemStatusTitle_statusName}"/>
+                        <h:outputText value="#{bundle.ViewItemStatusLabel_statusDescription}"/>
+                        <h:outputText value="#{itemStatusController.selected.statusDescription}" title="#{bundle.ViewItemStatusTitle_statusDescription}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="ItemStatusViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

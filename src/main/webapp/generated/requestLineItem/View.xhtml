@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RequestLineItemViewDlg" widgetVar="RequestLineItemViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewRequestLineItemTitle}">
+            <h:form id="RequestLineItemViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{requestLineItemController.selected != null}">
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_lineItemId}"/>
+                        <h:outputText value="#{requestLineItemController.selected.lineItemId}" title="#{bundle.ViewRequestLineItemTitle_lineItemId}"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_vendor}"/>
+                        <h:outputText value="#{requestLineItemController.selected.vendor}" title="#{bundle.ViewRequestLineItemTitle_vendor}"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_lineItemComment}"/>
+                        <h:outputText value="#{requestLineItemController.selected.lineItemComment}" title="#{bundle.ViewRequestLineItemTitle_lineItemComment}"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_qty}"/>
+                        <h:outputText value="#{requestLineItemController.selected.qty}" title="#{bundle.ViewRequestLineItemTitle_qty}"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_cartonAccepted}"/>
+                        <p:selectBooleanCheckbox value="#{requestLineItemController.selected.cartonAccepted}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_antistaticAccepted}"/>
+                        <p:selectBooleanCheckbox value="#{requestLineItemController.selected.antistaticAccepted}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_foamAccepted}"/>
+                        <p:selectBooleanCheckbox value="#{requestLineItemController.selected.foamAccepted}" disabled="true"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_serialNumber}"/>
+                        <h:outputText value="#{requestLineItemController.selected.serialNumber}" title="#{bundle.ViewRequestLineItemTitle_serialNumber}"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_returnableSerial}"/>
+                        <h:outputText value="#{requestLineItemController.selected.returnableSerial}" title="#{bundle.ViewRequestLineItemTitle_returnableSerial}"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_returnStatus}"/>
+                        <h:outputText value="#{requestLineItemController.selected.returnStatus}" title="#{bundle.ViewRequestLineItemTitle_returnStatus}"/>
+                        <h:outputText value="#{bundle.ViewRequestLineItemLabel_reqId}"/>
+                        <h:outputText value="#{requestLineItemController.selected.reqId}" title="#{bundle.ViewRequestLineItemTitle_reqId}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="RequestLineItemViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RequestLineItemStatusViewDlg" widgetVar="RequestLineItemStatusViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle2.ViewRequestLineItemStatusTitle}">
+            <h:form id="RequestLineItemStatusViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{requestLineItemStatusController.selected != null}">
+                        <h:outputText value="#{bundle2.ViewRequestLineItemStatusLabel_statusName}"/>
+                        <h:outputText value="#{requestLineItemStatusController.selected.statusName}" title="#{bundle2.ViewRequestLineItemStatusTitle_statusName}"/>
+                        <h:outputText value="#{bundle2.ViewRequestLineItemStatusLabel_statusDescription}"/>
+                        <h:outputText value="#{requestLineItemStatusController.selected.statusDescription}" title="#{bundle2.ViewRequestLineItemStatusTitle_statusDescription}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle2.Close}" onclick="RequestLineItemStatusViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

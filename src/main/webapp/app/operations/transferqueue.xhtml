@@ -1,0 +1,430 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:WMS="http://xmlns.jcp.org/jsf/composite/components"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <meta charset="utf-8"></meta>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"></meta>
+        <meta name="description" content="bootstrap material admin template"></meta>
+        <meta name="author" content=""></meta>
+        <title>VF WMS</title>
+        <link rel="apple-touch-icon" href="#{resource['assets/photos/apple-touch-icon.png']}"></link>
+        <link rel="shortcut icon" href="#{resource['assets/photos/favicon.png']}"></link>
+        <!-- Stylesheets -->
+        <h:outputStylesheet name="assets/css/bootstrap.min3f0d.css"  />
+        <h:outputStylesheet name="assets/css/bootstrap-extend.min3f0d.css"  />
+        <h:outputStylesheet name="assets/css/site.min3f0d.css"  />
+        <!-- Plugins -->
+        <h:outputStylesheet name="assets/vendor/animsition/animsition.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/asscrollable/asScrollable.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/switchery/switchery.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/intro-js/introjs.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/slidepanel/slidePanel.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/flag-icon-css/flag-icon.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/waves/waves.min3f0d.css"  />
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <!-- Fonts -->
+        <h:outputStylesheet name="assets/fonts/material-design/material-design.min3f0d.css"  />
+        <h:outputStylesheet name="assets/fonts/brand-icons/brand-icons.min3f0d.css"  />
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700'/>
+        <style>.ui-growl{top:200px;}</style>
+        
+         <f:metadata>
+             <f:viewAction action="#{requestsController.clearValues()}"/>
+        </f:metadata>
+    </h:head>
+    <h:body class="page-faq site-navbar-small">
+        <WMS:Header/>
+        <WMS:NavigatonBar inbound="#{usersController.inBound}"                          
+                         transfer="#{usersController.transfer}"                          
+                         faultybatch="#{usersController.faultyBatch}"/>
+
+        <!-- Page -->
+        <div class="page animsition">
+            <h:form id="transferQueueForm">
+                 <p:growl id="growl" sticky="true"/>
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-md-5">
+                    <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="icon md-view-subtitles" aria-hidden="true"></i>TRANSFER QUEUE</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p:dataTable id="transferDataList"
+                                         var="requestItem" 
+                                         value="#{requestsController.transferItems}"
+                                         rows="15"
+                                         rowKey="#{requestItem.reqId}"
+                                         paginatorPosition="bottom"
+                                         rowsPerPageTemplate="15,30,45"
+                                         paginator="true"
+                                         selectionMode="single"
+                                         selection="#{requestsController.selected}"
+                                         >
+                            <p:ajax event="rowSelect" update=":transferQueueForm:requestDetailsPanel, deleteButton"/>     
+                                <p:column headerText="Id" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.reqId}" />
+                                </p:column>
+                                <p:column headerText="Type" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.reqType.reqTypeName}" />
+                                </p:column>
+                                <p:column headerText="Comment" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.reqComment}" />
+                                </p:column>
+                                <p:column headerText="Warehouse" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.toWarehouse.warehouseName}" />
+                                </p:column>
+                                <p:column headerText="Assignment Group" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.assignmentGroup.warehouseName}" />
+                                </p:column>
+                                <p:column headerText="Requester" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.requester.fullName}" />
+                                </p:column>
+                                <p:column headerText="Request Time" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.reqTime}">
+                                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Items Count" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.requestLineItemCollection.size()}" />
+                                </p:column>
+                                <p:column headerText="From" style="font-size: 9px;">
+                                    <h:outputText value="#{requestItem.fromWarehouse.warehouseName}" />
+                                </p:column>
+                                 <f:facet name="footer">
+                                <p:commandButton id="deleteButton" 
+                                                 icon="ui-icon-trash"  
+                                                 value="#{bundle.Delete}" 
+                                                 actionListener="#{requestsController.destroy}" 
+                                                 update=":transferQueueForm:growl,:transferQueueForm:transferDataList" 
+                                                 disabled="#{empty requestsController.selected and usersController.SPC}"/>
+                            </f:facet>
+                        </p:dataTable>
+                    </div>
+                    </div>
+                    </div>
+                      <div class="col-md-7">
+                    <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="icon md-filter-list" aria-hidden="true"></i>REQUEST ITEMS</h3>
+                    </div>
+                    <div class="panel-body">
+                        <h:panelGroup id="requestDetailsPanel">
+                            <div class="row">
+                                <div class="col-md-12">
+                            <p:dataTable id="requestDetailsDataList"
+                                         var="requestDetailsItem" 
+                                         value="#{requestsController.selected.requestLineItemCollection}"
+                                         rows="5"
+                                         rowKey="#{requestDetailsItem.lineItemId}"
+                                         paginatorPosition="bottom"
+                                         rowsPerPageTemplate="5,10,20"
+                                         paginator="true"
+                                         selectionMode="single" 
+                                         selection="#{requestLineItemController.selected}"
+                                         rendered="#{requestsController.selected!=null}">
+                            <p:ajax event="rowSelect" update=":transferQueueForm:requestDetailsAcceptancePanel"/>
+                                <p:column headerText="Id" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.lineItemId}" />
+                                </p:column>
+                                <p:column headerText="P/N" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.itemId.partNumber}" />
+                                </p:column>
+                                <p:column headerText="Material #" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.itemId.materialNumber}" />
+                                </p:column>
+                                <p:column headerText="Description" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.itemId.description}" />
+                                </p:column>
+                                <p:column headerText="Category" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.itemId.category}" />
+                                </p:column>
+                                <p:column headerText="Vendor" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.vendor}" />
+                                </p:column>
+                                <p:column headerText="S/N" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.serialNumber}" />
+                                </p:column>
+                                <p:column headerText="Comment" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.lineItemComment}" />
+                                </p:column>
+                                <p:column headerText="Qty" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.qty}" />
+                                </p:column>
+                                <p:column headerText="Status" style="font-size: 9px;">
+                                    <h:outputText value="#{requestDetailsItem.lineItemStatus.statusName}" />
+                                </p:column>
+                            </p:dataTable>
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup id="requestDetailsAcceptancePanel">
+                            <br></br>
+                            <br></br>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p:commandButton class="btn btn-success btn-block" 
+                                              value="Accept"
+                                              update=":itemAcceptanceForm" 
+                                              onclick="PF('itemAcceptanceDialog').show()"
+                                              rendered="#{(requestLineItemController.selected!=null) and (requestLineItemController.selected.lineItemStatus.statusName!='Approved')}"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <p:commandButton class="btn btn-danger btn-block" 
+                                              value="Reject"
+                                               rendered="#{(requestLineItemController.selected!=null) and (requestLineItemController.selected.lineItemStatus.statusName!='Approved')}"
+                                               update=":itemRejectionForm" 
+                                               onclick="PF('itemRejectionDialog').show()"
+                                               />
+                                </div>
+                            </div>
+                        </h:panelGroup>
+                    </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            </h:form>
+        </div>
+        <!-- End Page -->
+
+        <WMS:Footer/>
+
+         <p:dialog id="itemAcceptanceDlg" widgetVar="itemAcceptanceDialog" 
+                      modal="true" closable="true" closeOnEscape="true" 
+                      resizable="false" appendTo="@(body)" header="Item Acceptance Dialog" >
+            <h:form id="itemAcceptanceForm">
+                <h:panelGroup rendered="#{requestLineItemController.selected != null}" >
+                    <div class="row">
+                        <div class="col-md-4">
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemid">Id</label>
+                            <h:outputText id="requestItemid" value="#{requestLineItemController.selected.lineItemId}" class="form-control"/>
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemPartNumber">P/N</label>
+                            <h:outputText id="requestItemPartNumber" value="#{requestLineItemController.selected.itemId.partNumber}" class="form-control"/>
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemMaterial">Material</label>
+                            <h:outputText id="requestItemMaterial" value="#{requestLineItemController.selected.itemId.materialNumber}" class="form-control"/>
+                        </div>
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemDescription">Description</label>
+                            <h:outputText id="requestItemDescription" value="#{requestLineItemController.selected.itemId.description}" class="form-control"/>
+                        </div>  
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemCategory">Category</label>
+                            <h:outputText id="requestItemCategory" value="#{requestLineItemController.selected.itemId.category}" class="form-control"/>
+                        </div>  
+                         <div class="form-group form-material">
+                            <label class="control-label" for="requestItemQty">Qty</label>
+                            <h:outputText id="requestItemQty" value="#{requestLineItemController.selected.qty}" class="form-control"/>
+                        </div>
+                        </div>
+                        <div class="col-md-4">
+                         
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemComment">Comment</label>
+                            <h:outputText id="requestItemComment" value="#{requestLineItemController.selected.lineItemComment}" class="form-control"/>
+                        </div> 
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemFrom">From</label>
+                            <h:outputText id="requestItemFrom" value="#{requestLineItemController.selected.reqId.fromWarehouse.warehouseName}" class="form-control"/>
+                        </div> 
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemTo">To</label>
+                            <h:outputText id="requestItemTo" value="#{requestLineItemController.selected.reqId.toWarehouse.warehouseName}" class="form-control"/>
+                        </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            <label class="control-label" for="cartonacceptedbox">Carton Accepted?</label>
+                            <p:selectOneButton id="cartonacceptedbox" 
+                                               required="true" 
+                                               requiredMessage="Please Indicate Item Condition"
+                                               value="#{requestLineItemController.selected.cartonAccepted}">
+                                <f:selectItem itemLabel="YES" itemValue="#{true}" />
+                                <f:selectItem itemLabel="NO" itemValue="#{false}" />
+                            </p:selectOneButton>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            <label class="control-label" for="antistaticacceptedbox">Anti-static Accepted?</label>
+                            <p:selectOneButton id="antistaticacceptedbox" 
+                                               required="true" 
+                                               requiredMessage="Please Indicate Item Condition"
+                                               value="#{requestLineItemController.selected.antistaticAccepted}">
+                                <f:selectItem itemLabel="YES" itemValue="#{true}" />
+                                <f:selectItem itemLabel="NO" itemValue="#{false}" />
+                            </p:selectOneButton>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            <label class="control-label" for="foamacceptedbox">Foam Accepted?</label>
+                            <p:selectOneButton id="foamacceptedbox" 
+                                               required="true" 
+                                               requiredMessage="Please Indicate Item Condition"
+                                               value="#{requestLineItemController.selected.foamAccepted}">
+                                <f:selectItem itemLabel="YES" itemValue="#{true}" />
+                                <f:selectItem itemLabel="NO" itemValue="#{false}" />
+                            </p:selectOneButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p:commandButton 
+                                actionListener="#{requestsController.acceptTransferItem}" 
+                            class="btn btn-block btn-success"
+                            value="CONFIRM - ACCEPTED" 
+                            update=":transferQueueForm:growl,:transferQueueForm:requestDetailsDataList
+                                    , :transferQueueForm:transferDataList , :transferQueueForm:requestDetailsPanel , 
+                                    :transferQueueForm:requestDetailsAcceptancePanel" 
+                            oncomplete="handleSubmit(args,'itemAcceptanceDialog');"/>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+          </p:dialog>
+        
+          <p:dialog id="itemRejectionDlg" widgetVar="itemRejectionDialog" 
+                      modal="true" closable="true" closeOnEscape="true" 
+                      resizable="false" appendTo="@(body)" header="Item Rejection Dialog" >
+            <h:form id="itemRejectionForm">
+                <h:panelGroup rendered="#{requestLineItemController.selected != null}" >
+                    <div class="row">
+                        <div class="col-md-4">
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemid">Id</label>
+                            <h:outputText id="requestItemid" value="#{requestLineItemController.selected.lineItemId}" class="form-control"/>
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemPartNumber">P/N</label>
+                            <h:outputText id="requestItemPartNumber" value="#{requestLineItemController.selected.itemId.partNumber}" class="form-control"/>
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemMaterial">Material</label>
+                            <h:outputText id="requestItemMaterial" value="#{requestLineItemController.selected.itemId.materialNumber}" class="form-control"/>
+                        </div>
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemDescription">Description</label>
+                            <h:outputText id="requestItemDescription" value="#{requestLineItemController.selected.itemId.description}" class="form-control"/>
+                        </div>  
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemCategory">Category</label>
+                            <h:outputText id="requestItemCategory" value="#{requestLineItemController.selected.itemId.category}" class="form-control"/>
+                        </div>  
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemvendor">Vendor</label>
+                            <h:outputText id="requestItemvendor" value="#{requestLineItemController.selected.vendor}" class="form-control"/>
+                        </div>  
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemQty">Qty</label>
+                            <h:outputText id="requestItemQty" value="#{requestLineItemController.selected.qty}" class="form-control"/>
+                        </div> 
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestItemComment">Comment</label>
+                            <h:outputText id="requestItemComment" value="#{requestLineItemController.selected.lineItemComment}" class="form-control"/>
+                        </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            <label class="control-label" for="cartonacceptedbox">Carton Accepted?</label>
+                            <p:selectOneButton id="cartonacceptedbox" value="#{requestLineItemController.selected.cartonAccepted}">
+                                <f:selectItem itemLabel="YES" itemValue="#{true}" />
+                                <f:selectItem itemLabel="NO" itemValue="#{false}" />
+                            </p:selectOneButton>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            <label class="control-label" for="antistaticacceptedbox">Anti-static Accepted?</label>
+                            <p:selectOneButton id="antistaticacceptedbox" value="#{requestLineItemController.selected.antistaticAccepted}">
+                                <f:selectItem itemLabel="YES" itemValue="#{true}" />
+                                <f:selectItem itemLabel="NO" itemValue="#{false}" />
+                            </p:selectOneButton>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                            <label class="control-label" for="foamacceptedbox">Foam Accepted?</label>
+                            <p:selectOneButton id="foamacceptedbox" value="#{requestLineItemController.selected.foamAccepted}">
+                                <f:selectItem itemLabel="YES" itemValue="#{true}" />
+                                <f:selectItem itemLabel="NO" itemValue="#{false}" />
+                            </p:selectOneButton>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p:commandButton 
+                            actionListener="#{requestsController.rejectTransferItem}" 
+                            class="btn btn-block btn-danger"
+                            value="CONFIRM - REJECT" 
+                            update=":transferQueueForm:growl,:transferQueueForm:requestDetailsDataList
+                                    , :transferQueueForm:transferDataList , :transferQueueForm:requestDetailsPanel , 
+                                    :transferQueueForm:requestDetailsAcceptancePanel" 
+                            oncomplete="handleSubmit(args,'itemRejectionDialog');"/>
+                        </div>
+                    </div>
+                </h:panelGroup>
+            </h:form>
+          </p:dialog>
+        
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <h:outputScript library="js" name="jsfcrud.js" target="head" />
+        <!-- Core  -->
+        <script src="#{resource['assets/vendor/bootstrap/bootstrap.min.js']}"></script>
+        <script src="#{resource['assets/vendor/animsition/animsition.min.js']}"></script>
+        <script src="#{resource['assets/vendor/asscroll/jquery-asScroll.min.js']}"></script>
+        <script src="#{resource['assets/vendor/mousewheel/jquery.mousewheel.min.js']}"></script>
+        <script src="#{resource['assets/vendor/asscrollable/jquery.asScrollable.all.min.js']}"></script>
+        <script src="#{resource['assets/vendor/ashoverscroll/jquery-asHoverScroll.min.js']}"></script>
+        <script src="#{resource['assets/vendor/waves/waves.min.js']}"></script>
+        <!-- Plugins -->
+        <script src="#{resource['assets/vendor/switchery/switchery.min.js']}"></script>
+        <script src="#{resource['assets/vendor/intro-js/intro.min.js']}"></script>
+        <script src="#{resource['assets/vendor/screenfull/screenfull.min.js']}"></script>
+        <script src="#{resource['assets/vendor/slidepanel/jquery-slidePanel.min.js']}"></script>
+        <!-- Scripts -->
+        <script src="#{resource['assets/js/core.min.js']}"></script>
+        <script src="#{resource['assets/js/site.min.js']}"></script>
+        <script src="#{resource['assets/js/sections/menu.min.js']}"></script>
+        <script src="#{resource['assets/js/sections/menubar.min.js']}"></script>
+        <script src="#{resource['assets/js/sections/sidebar.min.js']}"></script>
+        <script src="#{resource['assets/js/configs/config-colors.min.js']}"></script>
+        <script src="#{resource['assets/js/configs/config-tour.min.js']}"></script>
+        <script src="#{resource['assets/js/components/asscrollable.min.js']}"></script>
+        <script src="#{resource['assets/js/components/animsition.min.js']}"></script>
+        <script src="#{resource['assets/js/components/slidepanel.min.js']}"></script>
+        <script src="#{resource['assets/js/components/switchery.min.js']}"></script>
+        <script src="#{resource['assets/js/components/tabs.min.js']}"></script>
+        <script src="#{resource['assets/vendor/modernizr/modernizr.min.js']}"></script>
+        <script src="#{resource['assets/vendor/breakpoints/breakpoints.min.js']}"></script>
+        <script src="#{resource['js/page.min.js']}"></script> 
+        <script type="text/javascript">
+            //      <![CDATA[
+            Breakpoints();
+            //    ]]>
+        </script>
+    </h:body>
+</html>
+

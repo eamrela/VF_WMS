@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+        <cc:attribute name="inBoundCount" required="true"/>
+        <cc:attribute name="transferCount" required="true"/>
+        <cc:attribute name="issuedCount" required="true"/>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <div class="col-lg-4 col-sm-4">
+            <div class="widget widget-shadow" id="widgetLineareaOne">
+                <div class="widget-content">
+                    <div class="padding-20 padding-top-10">
+                        <div class="clearfix">
+                            <div class="grey-800 pull-left padding-vertical-10">
+                                <i class="icon md-long-arrow-tab grey-600 font-size-24 vertical-align-bottom margin-right-5"></i>In-Bound Requests
+                            </div>
+                            <span class="pull-right grey-700 font-size-30">#{cc.attrs.inBoundCount}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+            <div class="widget widget-shadow" id="widgetLineareaTwo">
+                <div class="widget-content">
+                    <div class="padding-20 padding-top-10">
+                        <div class="clearfix">
+                            <div class="grey-800 pull-left padding-vertical-10">
+                                <i class="icon md-transform grey-600 font-size-24 vertical-align-bottom margin-right-5"></i>Transfer Requests
+                            </div>
+                            <span class="pull-right grey-700 font-size-30">#{cc.attrs.transferCount}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-4">
+            <div class="widget widget-shadow" id="widgetLineareaThree">
+                <div class="widget-content">
+                    <div class="padding-20 padding-top-10">
+                        <div class="clearfix">
+                            <div class="grey-800 pull-left padding-vertical-10">
+                                <i class="icon md-triangle-down grey-600 font-size-24 vertical-align-bottom margin-right-5"></i>Issued Materials
+                            </div>
+                            <span class="pull-right grey-700 font-size-30">#{cc.attrs.issuedCount}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+    </cc:implementation>
+</html>

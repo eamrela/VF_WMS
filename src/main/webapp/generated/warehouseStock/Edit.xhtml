@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="WarehouseStockEditDlg" widgetVar="WarehouseStockEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditWarehouseStockTitle}">
+            <h:form id="WarehouseStockEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{warehouseStockController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditWarehouseStockLabel_goodStockQty}" for="goodStockQty" />
+                        <p:inputText id="goodStockQty" value="#{warehouseStockController.selected.goodStockQty}" title="#{bundle.EditWarehouseStockTitle_goodStockQty}" />
+                        <p:outputLabel value="#{bundle.EditWarehouseStockLabel_faultyStockQty}" for="faultyStockQty" />
+                        <p:inputText id="faultyStockQty" value="#{warehouseStockController.selected.faultyStockQty}" title="#{bundle.EditWarehouseStockTitle_faultyStockQty}" />
+                        <p:outputLabel value="#{bundle.EditWarehouseStockLabel_fmStockQty}" for="fmStockQty" />
+                        <p:inputText id="fmStockQty" value="#{warehouseStockController.selected.fmStockQty}" title="#{bundle.EditWarehouseStockTitle_fmStockQty}" />
+                        <p:outputLabel value="#{bundle.EditWarehouseStockLabel_totalStockQty}" for="totalStockQty" />
+                        <p:inputText id="totalStockQty" value="#{warehouseStockController.selected.totalStockQty}" title="#{bundle.EditWarehouseStockTitle_totalStockQty}" />
+                        <p:outputLabel value="#{bundle.EditWarehouseStockLabel_lastTransactionTime}" for="lastTransactionTime" />
+                        <p:calendar id="lastTransactionTime" pattern="MM/dd/yyyy HH:mm:ss" value="#{warehouseStockController.selected.lastTransactionTime}" title="#{bundle.EditWarehouseStockTitle_lastTransactionTime}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditWarehouseStockLabel_items}" for="items" />
+                        <p:selectOneMenu id="items" value="#{warehouseStockController.selected.items}" required="true" requiredMessage="#{bundle.EditWarehouseStockRequiredMessage_items}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{itemsController.itemsAvailableSelectOne}"
+                                           var="itemsItem"
+                                           itemValue="#{itemsItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditWarehouseStockLabel_warehouses}" for="warehouses" />
+                        <p:selectOneMenu id="warehouses" value="#{warehouseStockController.selected.warehouses}" required="true" requiredMessage="#{bundle.EditWarehouseStockRequiredMessage_warehouses}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{warehousesController.itemsAvailableSelectOne}"
+                                           var="warehousesItem"
+                                           itemValue="#{warehousesItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{warehouseStockController.update}" value="#{bundle.Save}" update="display,:WarehouseStockListForm:datalist,:growl" oncomplete="handleSubmit(args, 'WarehouseStockEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="WarehouseStockEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

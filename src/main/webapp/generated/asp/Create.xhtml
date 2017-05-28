@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AspCreateDlg" widgetVar="AspCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateAspTitle}">
+            <h:form id="AspCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{aspController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateAspLabel_aspName}" for="aspName" />
+                        <p:inputText id="aspName" value="#{aspController.selected.aspName}" title="#{bundle.CreateAspTitle_aspName}" required="true" requiredMessage="#{bundle.CreateAspRequiredMessage_aspName}"/>
+                        <p:outputLabel value="#{bundle.CreateAspLabel_aspSpoc}" for="aspSpoc" />
+                        <p:inputText id="aspSpoc" value="#{aspController.selected.aspSpoc}" title="#{bundle.CreateAspTitle_aspSpoc}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{aspController.create}" value="#{bundle.Save}" update="display,:AspListForm:datalist,:growl" oncomplete="handleSubmit(args,'AspCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="AspCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

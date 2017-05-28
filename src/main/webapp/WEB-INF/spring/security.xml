@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+    xmlns:beans="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+                        http://www.springframework.org/schema/security 
+                        http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+
+    <http use-expressions="true">
+        <intercept-url pattern="/app/public/**" access="permitAll" />
+        <intercept-url pattern="/javax.faces.resource/**" access="permitAll"/>
+        <intercept-url pattern="/resources/**" access="permitAll"/>
+        <intercept-url pattern="/app/common/**" access="hasAnyRole('ROLE_SPC','ROLE_WHA','ROLE_WHK')" />
+        <intercept-url pattern="/app/SPC/**" access="hasAnyRole('ROLE_SPC')" />
+        <intercept-url pattern="/app/WHK/**" access="hasAnyRole('ROLE_SPC','ROLE_WHA','ROLE_WHK')"/> 
+        <intercept-url pattern="/app/reports/**" access="hasAnyRole('ROLE_SPC','ROLE_WHA','ROLE_WHK')" />
+        <intercept-url pattern="/app/logger/**" access="hasAnyRole('ROLE_SPC','ROLE_WHA','ROLE_WHK')" />
+        <intercept-url pattern="/app/faulty/**" access="hasAnyRole('ROLE_SPC')" />
+        
+	
+        <access-denied-handler error-page="/app/public/403.xhtml" />
+        
+<!--        <logout logout-success-url="/app/public/login.xhtml" />-->
+        
+        <session-management invalid-session-url="/app/public/login.xhtml">
+        <concurrency-control max-sessions="50" error-if-maximum-exceeded="true" />
+        </session-management>
+        
+        <csrf disabled="true"/>
+        <!-- Custom login page -->
+        <form-login 
+            login-page="/app/public/login.xhtml"
+            default-target-url="/app/common/index.xhtml" 
+            authentication-failure-url="/app/public/403.xhtml" 
+            username-parameter="username"
+            password-parameter="password"       
+        />
+        
+        <!-- Custom logout page -->
+        <logout logout-url="/logout"
+                logout-success-url="/app/common/index.xhtml"
+                delete-cookies="JSESSIONID,User,UserID"
+                invalidate-session="true"        
+        />
+    </http>
+    
+    
+    <!-- Use inline authentication provider. -->
+    <authentication-manager>
+	  <authentication-provider>
+		<jdbc-user-service data-source-ref="dataSource"
+		  users-by-username-query=  "SELECT user_email, user_password, true as enabled
+                                            FROM users 
+                                            WHERE user_email=?;"
+		  authorities-by-username-query=
+                                            "SELECT u.user_email, r.role_id 
+                                            FROM users u, users_roles r
+                                            WHERE r.users_id = u.user_email
+                                            AND u.user_email=?;" />
+                                            
+<!--            <user-service>
+                <user name="admin" password="admin" authorities="ROLE_ADMIN" />
+                <user name="member" password="member" authorities="ROLE_MEMBER" />
+            </user-service>-->
+	  </authentication-provider>
+    </authentication-manager>
+    
+</beans:beans>

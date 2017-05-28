@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificationsViewDlg" widgetVar="NotificationsViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle5.ViewNotificationsTitle}">
+            <h:form id="NotificationsViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{notificationsController.selected != null}">
+                        <h:outputText value="#{bundle5.ViewNotificationsLabel_notiId}"/>
+                        <h:outputText value="#{notificationsController.selected.notiId}" title="#{bundle5.ViewNotificationsTitle_notiId}"/>
+                        <h:outputText value="#{bundle5.ViewNotificationsLabel_notiTime}"/>
+                        <h:outputText value="#{notificationsController.selected.notiTime}" title="#{bundle5.ViewNotificationsTitle_notiTime}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle5.ViewNotificationsLabel_notiDescription}"/>
+                        <h:outputText value="#{notificationsController.selected.notiDescription}" title="#{bundle5.ViewNotificationsTitle_notiDescription}"/>
+                        <h:outputText value="#{bundle5.ViewNotificationsLabel_notiType}"/>
+                        <h:outputText value="#{notificationsController.selected.notiType}" title="#{bundle5.ViewNotificationsTitle_notiType}"/>
+                        <h:outputText value="#{bundle5.ViewNotificationsLabel_notiRegion}"/>
+                        <h:outputText value="#{notificationsController.selected.notiRegion}" title="#{bundle5.ViewNotificationsTitle_notiRegion}"/>
+                        <h:outputText value="#{bundle5.ViewNotificationsLabel_notiWarehouse}"/>
+                        <h:outputText value="#{notificationsController.selected.notiWarehouse}" title="#{bundle5.ViewNotificationsTitle_notiWarehouse}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle5.Close}" onclick="NotificationsViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

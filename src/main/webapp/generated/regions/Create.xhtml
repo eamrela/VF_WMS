@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegionsCreateDlg" widgetVar="RegionsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateRegionsTitle}">
+            <h:form id="RegionsCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{regionsController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateRegionsLabel_regionName}" for="regionName" />
+                        <p:inputText id="regionName" value="#{regionsController.selected.regionName}" title="#{bundle.CreateRegionsTitle_regionName}" required="true" requiredMessage="#{bundle.CreateRegionsRequiredMessage_regionName}"/>
+                        <p:outputLabel value="#{bundle.CreateRegionsLabel_opManager}" for="opManager" />
+                        <p:inputText id="opManager" value="#{regionsController.selected.opManager}" title="#{bundle.CreateRegionsTitle_opManager}" />
+                        <p:outputLabel value="#{bundle.CreateRegionsLabel_whManager}" for="whManager" />
+                        <p:inputText id="whManager" value="#{regionsController.selected.whManager}" title="#{bundle.CreateRegionsTitle_whManager}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{regionsController.create}" value="#{bundle.Save}" update="display,:RegionsListForm:datalist,:growl" oncomplete="handleSubmit(args,'RegionsCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RegionsCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

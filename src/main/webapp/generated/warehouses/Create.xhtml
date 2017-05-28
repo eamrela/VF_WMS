@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="WarehousesCreateDlg" widgetVar="WarehousesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateWarehousesTitle}">
+            <h:form id="WarehousesCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{warehousesController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateWarehousesLabel_warehouseName}" for="warehouseName" />
+                        <p:inputText id="warehouseName" value="#{warehousesController.selected.warehouseName}" title="#{bundle.CreateWarehousesTitle_warehouseName}" required="true" requiredMessage="#{bundle.CreateWarehousesRequiredMessage_warehouseName}"/>
+                        <p:outputLabel value="#{bundle.CreateWarehousesLabel_warehouseAddress}" for="warehouseAddress" />
+                        <p:inputText id="warehouseAddress" value="#{warehousesController.selected.warehouseAddress}" title="#{bundle.CreateWarehousesTitle_warehouseAddress}" />
+                        <p:outputLabel value="#{bundle.CreateWarehousesLabel_warehouseSpoc}" for="warehouseSpoc" />
+                        <p:inputText id="warehouseSpoc" value="#{warehousesController.selected.warehouseSpoc}" title="#{bundle.CreateWarehousesTitle_warehouseSpoc}" />
+                        <p:outputLabel value="#{bundle.CreateWarehousesLabel_asp}" for="asp" />
+                        <p:selectOneMenu id="asp" value="#{warehousesController.selected.asp}" >
+                            <f:selectItems value="#{aspController.itemsAvailableSelectOne}"
+                                           var="aspItem"
+                                           itemValue="#{aspItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateWarehousesLabel_region}" for="region" />
+                        <p:selectOneMenu id="region" value="#{warehousesController.selected.region}" >
+                            <f:selectItems value="#{regionsController.itemsAvailableSelectOne}"
+                                           var="regionItem"
+                                           itemValue="#{regionItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{warehousesController.create}" value="#{bundle.Save}" update="display,:WarehousesListForm:datalist,:growl" oncomplete="handleSubmit(args,'WarehousesCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="WarehousesCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

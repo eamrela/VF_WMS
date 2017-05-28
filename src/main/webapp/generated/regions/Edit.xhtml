@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="RegionsEditDlg" widgetVar="RegionsEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditRegionsTitle}">
+            <h:form id="RegionsEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{regionsController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditRegionsLabel_regionName}" for="regionName" />
+                        <p:inputText id="regionName" value="#{regionsController.selected.regionName}" title="#{bundle.EditRegionsTitle_regionName}" required="true" requiredMessage="#{bundle.EditRegionsRequiredMessage_regionName}"/>
+                        <p:outputLabel value="#{bundle.EditRegionsLabel_opManager}" for="opManager" />
+                        <p:inputText id="opManager" value="#{regionsController.selected.opManager}" title="#{bundle.EditRegionsTitle_opManager}" />
+                        <p:outputLabel value="#{bundle.EditRegionsLabel_whManager}" for="whManager" />
+                        <p:inputText id="whManager" value="#{regionsController.selected.whManager}" title="#{bundle.EditRegionsTitle_whManager}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{regionsController.update}" value="#{bundle.Save}" update="display,:RegionsListForm:datalist,:growl" oncomplete="handleSubmit(args, 'RegionsEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="RegionsEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

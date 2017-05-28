@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <script>
+            setInterval(function() {
+                $(".updateNotificationVar").click();
+            }, 10000);
+        </script>
+      
+        <li class="dropdown">
+            <a data-toggle="dropdown" href="javascript:void(0)" title="Notifications" aria-expanded="false"
+               data-animation="scale-up" role="button">
+                <i class="icon md-notifications" aria-hidden="true"></i>
+                <span class="badge badge-danger up">
+                    <h:outputText id="notiBadge" value="#{notificationsController.numberOfNotifications}"/>
+                </span>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+       
+                <li class="dropdown-menu-header" role="presentation">
+                    <h5>NOTIFICATIONS</h5>
+                    <span class="label label-round label-danger">New 
+                     <h:outputText id="notiBadge2" value="#{notificationsController.numberOfNotifications}"/>
+                    </span>
+                </li>
+
+                <li class="list-group" role="presentation">
+                    <div data-role="container">
+                        <div data-role="content">
+                           <h:form id="notificationForm">
+                            <p:commandButton  class="updateNotificationVar" id="updateNotification" widgetVar="updateNotificationVar" style="display:none">
+                                <p:ajax listener="#{notificationsController.updateNotification}" update="notiBadge,notiBadge2,uiRepeat" />
+                            </p:commandButton>  
+                            <ui:repeat id="uiRepeat" value="#{notificationsController.notificationPerRegion}" var="noti">
+                                <a class="list-group-item" href="#" role="menuitem">
+                                <div class="media">
+                                    <div class="media-left padding-right-10">
+                                        <i class="icon md-receipt bg-red-600 white icon-circle" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6 class="media-heading">#{noti.notiDescription}</h6>
+                                        <time class="media-meta" datetime="#{noti.notiTime}">#{noti.notiTime}</time>
+                                    </div>
+                                </div>
+                                </a>
+                            </ui:repeat>
+                        </h:form>
+                        </div>
+                    </div>
+                </li>
+                <li class="dropdown-menu-footer" role="presentation">
+                    <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                        <i class="icon md-settings" aria-hidden="true"></i>
+                    </a>
+                    <a href="javascript:void(0)" role="menuitem">
+                        All notifications
+                    </a>
+                </li>
+            </ul>
+        </li>
+        
+    </cc:implementation>
+</html>

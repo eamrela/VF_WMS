@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <!-- INTERFACE -->
+    <cc:interface>
+    </cc:interface>
+
+    <!-- IMPLEMENTATION -->
+    <cc:implementation>
+        <!-- Plugins For This Page -->
+        <h:outputStylesheet name="assets/vendor/chartist-js/chartist.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/jvectormap/jquery-jvectormap.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min3f0d.css"  />
+        
+        <div class="col-xlg-12 col-md-12">
+            <div class="widget widget-shadow" id="widgetCurrentChart">
+                <div class="padding-30 white" style="background-color: #d1d2d4;">
+                    <div class="font-size-20 margin-bottom-20">Faulty #</div>
+                    <div class="ct-chart height-200">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+        <script src="#{resource['assets/vendor/chartist-js/chartist.min.js']}"></script>
+        <script src="#{resource['assets/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js']}"></script>
+          
+        <script type="text/javascript">
+            //      <![CDATA[
+            new Chartist.Bar("#widgetCurrentChart .ct-chart",
+							#{dashboardController.faultyCountChart},
+							 {
+							 	stackBars:0,
+							 	fullWidth:!0,
+							 	seriesBarDistance:0,
+							 	axisX:{showLabel:!0,
+                                                                       showGrid:!0,
+                                                                       offset:10},
+							    axisY:{showLabel:!0,
+							    	   showGrid:!0,
+							    	   offset:30,
+                                                                   onlyInteger: 1,
+							    	   labelOffset:{x:0,y:15}
+							    	  }
+					    	 });
+             //    ]]>
+        </script>
+    </cc:implementation>
+</html>

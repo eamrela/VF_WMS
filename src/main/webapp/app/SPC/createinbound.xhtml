@@ -1,0 +1,289 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:WMS="http://xmlns.jcp.org/jsf/composite/components"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta charset="utf-8"></meta>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui"></meta>
+        <meta name="description" content="bootstrap material admin template"></meta>
+        <meta name="author" content=""></meta>
+        <title>VF WMS</title>
+        <link rel="apple-touch-icon" href="#{resource['assets/photos/apple-touch-icon.png']}"></link>
+        <link rel="shortcut icon" href="#{resource['assets/photos/favicon.png']}"></link>
+        <!-- Stylesheets -->
+        <h:outputStylesheet name="assets/css/bootstrap.min3f0d.css"  />
+        <h:outputStylesheet name="assets/css/bootstrap-extend.min3f0d.css"  />
+        <h:outputStylesheet name="assets/css/site.min3f0d.css"  />
+        <!-- Plugins -->
+        <h:outputStylesheet name="assets/vendor/animsition/animsition.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/asscrollable/asScrollable.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/switchery/switchery.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/intro-js/introjs.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/slidepanel/slidePanel.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/flag-icon-css/flag-icon.min3f0d.css"  />
+        <h:outputStylesheet name="assets/vendor/waves/waves.min3f0d.css"  />
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <!-- Fonts -->
+        <h:outputStylesheet name="assets/fonts/material-design/material-design.min3f0d.css"  />
+        <h:outputStylesheet name="assets/fonts/brand-icons/brand-icons.min3f0d.css"  />
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,700'/>
+        
+        <f:metadata>
+            <f:viewAction action="#{requestsController.prepareCreateInBound}"/>
+        </f:metadata>
+    </h:head>
+    <h:body class="page-faq site-navbar-small">
+        <WMS:Header/>
+        <WMS:NavigatonBar inbound="#{usersController.inBound}"                          
+                         transfer="#{usersController.transfer}"                          
+                         faultybatch="#{usersController.faultyBatch}"/>
+
+        <!-- Page -->
+        <div class="page animsition">
+            <WMS:PageHeader headerTxt="Create In-Bound Request"/>
+             <h:form id="createInboundForm">
+                 <p:growl id="growl" sticky="true"/>
+            <div class="page-content container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                       <div class="panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="icon md-view-subtitles" aria-hidden="true"></i>System Details</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requesterOutputTxt">Requester</label>
+                            <h:outputText id="requesterOutputTxt" value="#{requestsController.selected.requester.fullName}" class="form-control"/>
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestTypeOutputTxt">Request Type</label>
+                            <h:outputText id="requestTypeOutputTxt" value="#{requestsController.selected.reqType.reqTypeName}" class="form-control"/>
+                        </div>
+                        <div class="form-group form-material">
+                            <label class="control-label" for="requestTimeOutputTxt">Request Time</label>
+                            <h:outputText id="requestTimeOutputTxt" value="#{requestsController.selected.reqTime}" class="form-control">
+                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
+                            </h:outputText>
+                        </div>
+                    </div>
+                    </div>  
+                         <p:commandButton class="btn btn-warning btn-block"  
+                                    value="CREATE ORDER" 
+                                    update=":OrderConfirmationForm" 
+                                    onclick="PF('OrderConformationDialog').show()"/>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                         <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="icon md-case" aria-hidden="true"></i>Request Details</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="filteredWarehouseSelectOneMenu">To Warehouse</label>
+                                    <h:selectOneMenu 
+                                                 value="#{requestsController.selected.toWarehouse}" 
+                                                 id="filteredWarehouseSelectOneMenu"
+                                                 converter="WarehousesControllerConverter"
+                                                 required="true"
+                                                 class="form-control"
+                                                 >
+                                        <f:selectItem itemLabel="Please select a Warehouse" itemValue="#{null}"/>
+                                        <f:selectItems var="warehouseItem" 
+                                                       value="#{warehousesController.itemsForRegion}"
+                                                       itemLabel="#{warehouseItem.warehouseName}"
+                                                       itemValue="#{warehouseItem}"/>
+                                    </h:selectOneMenu>
+                                </div>
+                                </div>
+                                <div class="col-md-6">
+                                     <div class="form-group">
+                                        <label class="control-label" for="requestCommentInputTxt">Request Comment</label>
+                                        <h:inputTextarea id="requestCommentInputTxt" 
+                                                         value="#{requestsController.selected.reqComment}" 
+                                                         class="form-control"/>
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                        </div>
+                        <div class="row">
+                            <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title"><i class="icon md-collection-item" aria-hidden="true"></i>Request Items</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                     <div class="form-group">
+                                        <label class="control-label" for="itemSearch">Search Items:  </label>
+                                        <p:autoComplete id="itemSearch" 
+                                                    value="#{itemsController.selected}" 
+                                                    completeMethod="#{itemsController.searchItems}" 
+                                                    var="itemAC"
+                                                    converter="ItemsControllerConverter"
+                                                    itemValue="#{itemAC}"
+                                                    itemLabel="#{itemAC.partNumber}"
+                                                    maxResults="10"
+                                                    >
+                                            <p:ajax event="itemSelect" listener="#{requestsController.addSelectedLineItem}" 
+                                                update=":createInboundForm:orderLineItems, :createInboundForm:growl"/>
+                                      </p:autoComplete>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <p:dataTable var="lineItem" 
+                                     id="orderLineItems"
+                                     value="#{requestsController.selected.requestLineItemCollection}"
+                                     rowKey="#{lineItem.itemId.partNumber}"
+                                     selection="#{requestLineItemController.selected}"
+                                     selectionMode="single">
+
+                                        <p:ajax event="rowDblselect" listener="#{requestsController.removeFromLineItems}" 
+                                                update=":createInboundForm:orderLineItems, :createInboundForm:growl"/>
+
+
+                                        <p:column headerText="P/N" style="font-size: 9px;">
+                                            <h:outputText value="#{lineItem.itemId.partNumber}" />
+                                        </p:column>
+                                        <p:column headerText="Description" style="font-size: 9px;">
+                                            <h:outputText value="#{lineItem.itemId.description}" />
+                                        </p:column>
+                                        <p:column headerText="Material" style="font-size: 9px;">
+                                            <h:outputText value="#{lineItem.itemId.materialNumber}" />
+                                        </p:column>
+                                        <p:column headerText="Category" style="font-size: 9px;">
+                                            <h:outputText value="#{lineItem.itemId.category}" />
+                                        </p:column>
+                                        <p:column headerText="QTY" style="font-size: 9px;">
+                                            <h:inputText value="#{lineItem.qty}" class="form-control"/>
+                                        </p:column>
+                                        <p:column headerText="Comment" style="font-size: 9px;">
+                                            <h:inputText value="#{lineItem.lineItemComment}" class="form-control"/>
+                                        </p:column>
+                                        <p:column headerText="Vendor" style="font-size: 9px;">
+                                            <h:inputText value="#{lineItem.vendor}" class="form-control"/>
+                                        </p:column>
+                                    </p:dataTable>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+             </h:form>
+        </div>
+        <!-- End Page -->
+
+        <WMS:Footer/>
+
+        
+          <p:dialog id="OrderConformationDlg" widgetVar="OrderConformationDialog" 
+                      modal="true" closable="true" closeOnEscape="true" 
+                      resizable="false" appendTo="@(body)" header="Confirm Order Creation" >
+            <h:form id="OrderConfirmationForm">
+                <h:panelGroup rendered="#{requestsController.selected != null}" >
+                <div class="row" style="width: 700px;">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                        <label class="control-label" for="requestCreator" >Requester</label>
+                        <h:outputText class="form-control" id="requestCreator" value="#{requestsController.selected.requester.fullName}"/>
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label" for="requestType" >Order Type</label>
+                        <h:outputText class="form-control" id="requestType" value="#{requestsController.selected.reqType.reqTypeName}"/>
+                        </div>
+                        <div class="form-group">
+                        <label class="control-label" for="requestToWarehouse" >In-Bound Warehouse</label>
+                        <h:outputText class="form-control" id="requestToWarehouse" 
+                                      value="#{requestsController.selected.toWarehouse.warehouseName}"/>
+                        </div>
+                        
+                    </div>
+                    <div class="col-md-9">
+                        <p:dataTable var="requestLineItem" 
+                                     id="requestLineItems"
+                                     value="#{requestsController.selected.requestLineItemCollection}"
+                                     rowKey="#{requestLineItem.itemId.partNumber}">
+
+                            <p:column headerText="P/N" style="font-size: 9px;">
+                                <h:outputText value="#{requestLineItem.itemId.partNumber}" />
+                            </p:column>
+                            <p:column headerText="Description" style="font-size: 9px;">
+                                <h:outputText value="#{requestLineItem.itemId.description}" />
+                            </p:column>
+                            <p:column headerText="Material" style="font-size: 9px;">
+                                <h:outputText value="#{requestLineItem.itemId.materialNumber}" />
+                            </p:column>
+                            <p:column headerText="Category" style="font-size: 9px;">
+                                <h:outputText value="#{requestLineItem.itemId.category}" />
+                            </p:column>
+                            <p:column headerText="QTY" style="font-size: 9px;">
+                                <h:outputText value="#{requestLineItem.qty}" />
+                            </p:column>
+                            <p:column headerText="Vendor" style="font-size: 9px;">
+                                <h:outputText value="#{requestLineItem.vendor}" />
+                            </p:column>
+                          
+                        </p:dataTable>
+                        
+                        <p:commandButton 
+                            actionListener="#{requestsController.createInBoundRequest}" 
+                            class="btn btn-block btn-success"
+                            value="CONFIRM AND CREATE IN-BOUND REQUEST" 
+                            update=":createInboundForm:growl" 
+                            oncomplete="handleSubmit(args,'OrderConformationDialog');"/>
+                    </div>
+                </div>  
+                </h:panelGroup>
+            </h:form>
+            </p:dialog>
+        
+        
+        
+        <h:outputScript library="primefaces" name="jquery/jquery.js"/>
+        <h:outputScript library="js" name="jsfcrud.js" target="head" />
+        <!-- Core  -->
+        <script src="#{resource['assets/vendor/bootstrap/bootstrap.min.js']}"></script>
+        <script src="#{resource['assets/vendor/animsition/animsition.min.js']}"></script>
+        <script src="#{resource['assets/vendor/asscroll/jquery-asScroll.min.js']}"></script>
+        <script src="#{resource['assets/vendor/mousewheel/jquery.mousewheel.min.js']}"></script>
+        <script src="#{resource['assets/vendor/asscrollable/jquery.asScrollable.all.min.js']}"></script>
+        <script src="#{resource['assets/vendor/ashoverscroll/jquery-asHoverScroll.min.js']}"></script>
+        <script src="#{resource['assets/vendor/waves/waves.min.js']}"></script>
+        <!-- Plugins -->
+        <script src="#{resource['assets/vendor/switchery/switchery.min.js']}"></script>
+        <script src="#{resource['assets/vendor/intro-js/intro.min.js']}"></script>
+        <script src="#{resource['assets/vendor/screenfull/screenfull.min.js']}"></script>
+        <script src="#{resource['assets/vendor/slidepanel/jquery-slidePanel.min.js']}"></script>
+        <!-- Scripts -->
+        <script src="#{resource['assets/js/core.min.js']}"></script>
+        <script src="#{resource['assets/js/site.min.js']}"></script>
+        <script src="#{resource['assets/js/sections/menu.min.js']}"></script>
+        <script src="#{resource['assets/js/sections/menubar.min.js']}"></script>
+        <script src="#{resource['assets/js/sections/sidebar.min.js']}"></script>
+        <script src="#{resource['assets/js/configs/config-colors.min.js']}"></script>
+        <script src="#{resource['assets/js/configs/config-tour.min.js']}"></script>
+        <script src="#{resource['assets/js/components/asscrollable.min.js']}"></script>
+        <script src="#{resource['assets/js/components/animsition.min.js']}"></script>
+        <script src="#{resource['assets/js/components/slidepanel.min.js']}"></script>
+        <script src="#{resource['assets/js/components/switchery.min.js']}"></script>
+        <script src="#{resource['assets/js/components/tabs.min.js']}"></script>
+        <script src="#{resource['assets/vendor/modernizr/modernizr.min.js']}"></script>
+        <script src="#{resource['assets/vendor/breakpoints/breakpoints.min.js']}"></script>
+        <script src="#{resource['js/page.min.js']}"></script> 
+        <script type="text/javascript">
+            //      <![CDATA[
+            Breakpoints();
+            //    ]]>
+        </script>
+    </h:body>
+</html>
+

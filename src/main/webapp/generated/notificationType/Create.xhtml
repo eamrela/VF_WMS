@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="NotificationTypeCreateDlg" widgetVar="NotificationTypeCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateNotificationTypeTitle}">
+            <h:form id="NotificationTypeCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{notificationTypeController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateNotificationTypeLabel_notificationName}" for="notificationName" />
+                        <p:inputText id="notificationName" value="#{notificationTypeController.selected.notificationName}" title="#{bundle.CreateNotificationTypeTitle_notificationName}" required="true" requiredMessage="#{bundle.CreateNotificationTypeRequiredMessage_notificationName}"/>
+                        <p:outputLabel value="#{bundle.CreateNotificationTypeLabel_notificationDescription}" for="notificationDescription" />
+                        <p:inputText id="notificationDescription" value="#{notificationTypeController.selected.notificationDescription}" title="#{bundle.CreateNotificationTypeTitle_notificationDescription}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{notificationTypeController.create}" value="#{bundle.Save}" update="display,:NotificationTypeListForm:datalist,:growl" oncomplete="handleSubmit(args,'NotificationTypeCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="NotificationTypeCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

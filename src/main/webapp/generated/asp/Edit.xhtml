@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="AspEditDlg" widgetVar="AspEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditAspTitle}">
+            <h:form id="AspEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{aspController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditAspLabel_aspName}" for="aspName" />
+                        <p:inputText id="aspName" value="#{aspController.selected.aspName}" title="#{bundle.EditAspTitle_aspName}" required="true" requiredMessage="#{bundle.EditAspRequiredMessage_aspName}"/>
+                        <p:outputLabel value="#{bundle.EditAspLabel_aspSpoc}" for="aspSpoc" />
+                        <p:inputText id="aspSpoc" value="#{aspController.selected.aspSpoc}" title="#{bundle.EditAspTitle_aspSpoc}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{aspController.update}" value="#{bundle.Save}" update="display,:AspListForm:datalist,:growl" oncomplete="handleSubmit(args, 'AspEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="AspEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

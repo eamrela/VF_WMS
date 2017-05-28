@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="WarehouseStockViewDlg" widgetVar="WarehouseStockViewDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.ViewWarehouseStockTitle}">
+            <h:form id="WarehouseStockViewForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{warehouseStockController.selected != null}">
+                        <h:outputText value="#{bundle.ViewWarehouseStockLabel_goodStockQty}"/>
+                        <h:outputText value="#{warehouseStockController.selected.goodStockQty}" title="#{bundle.ViewWarehouseStockTitle_goodStockQty}"/>
+                        <h:outputText value="#{bundle.ViewWarehouseStockLabel_faultyStockQty}"/>
+                        <h:outputText value="#{warehouseStockController.selected.faultyStockQty}" title="#{bundle.ViewWarehouseStockTitle_faultyStockQty}"/>
+                        <h:outputText value="#{bundle.ViewWarehouseStockLabel_fmStockQty}"/>
+                        <h:outputText value="#{warehouseStockController.selected.fmStockQty}" title="#{bundle.ViewWarehouseStockTitle_fmStockQty}"/>
+                        <h:outputText value="#{bundle.ViewWarehouseStockLabel_totalStockQty}"/>
+                        <h:outputText value="#{warehouseStockController.selected.totalStockQty}" title="#{bundle.ViewWarehouseStockTitle_totalStockQty}"/>
+                        <h:outputText value="#{bundle.ViewWarehouseStockLabel_lastTransactionTime}"/>
+                        <h:outputText value="#{warehouseStockController.selected.lastTransactionTime}" title="#{bundle.ViewWarehouseStockTitle_lastTransactionTime}">
+                            <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                        </h:outputText>
+                        <h:outputText value="#{bundle.ViewWarehouseStockLabel_items}"/>
+                        <h:outputText value="#{warehouseStockController.selected.items}" title="#{bundle.ViewWarehouseStockTitle_items}"/>
+                        <h:outputText value="#{bundle.ViewWarehouseStockLabel_warehouses}"/>
+                        <h:outputText value="#{warehouseStockController.selected.warehouses}" title="#{bundle.ViewWarehouseStockTitle_warehouses}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{bundle.Close}" onclick="WarehouseStockViewDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
